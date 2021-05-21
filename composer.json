@@ -1,0 +1,16 @@
+{
+    "name": "jaoafa/tracking-first-join-players",
+    "description": "Track player information on first login",
+    "type": "project",
+    "license": "jaoLicense",
+    "authors": [
+        {
+            "name": "Tomachi",
+            "email": "lego@aol.jp"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^2.2",
+        "vlucas/phpdotenv": "^5.3"
+    }
+}

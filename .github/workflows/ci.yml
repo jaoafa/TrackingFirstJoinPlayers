@@ -1,0 +1,21 @@
+name: CI
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: PHP Lint
+        run: |
+          list=(`find / -name \*.php`)
+          echo ${#list[*]} files
+          echo -e > phplint.log
+          for ((i = 0; i < ${#list[*]}; i++)) {
+            php -l ${list[i]} \; > /dev/null 2>> phplint.log
+          }
+          cat phplint.log
+          exit $((`cat phplint.log | wc -l` - 1))

@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: PHP Lint
         run: |
-          list=(`find / -name \*.php`)
+          list=(`find . -name \*.php`)
           echo ${#list[*]} files
           echo -e > phplint.log
           for ((i = 0; i < ${#list[*]}; i++)) {

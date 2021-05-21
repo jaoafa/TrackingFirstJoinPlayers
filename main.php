@@ -110,6 +110,7 @@ while ($row = $stmt->fetch()) {
 // Summary of yesterday
 $embed = new DiscordEmbed();
 $embed->setTitle("Summary of yesterday");
+$embed->setDescription("`$yesterday` のログインサマリー\n・プレイヤー数: `$total_count`回 (内ログイン失敗`{$failure_count}`回)");
 $embed->setAuthor("jaotan", "https://jaoafa.com/", "https://jaoafa.com/favicons/android-chrome-512x512.png", "https://jaoafa.com/favicons/android-chrome-512x512.png");
 foreach ($editeds as $uuid => $cp) {
     $mcid = $player_uuid[$uuid];

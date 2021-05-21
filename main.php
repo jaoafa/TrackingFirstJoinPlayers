@@ -99,7 +99,7 @@ while ($row = $stmt->fetch()) {
         $logger->info("$mcid: not edited (place&destroy)");
         continue;
     }
-    if ($cp->getPlaceCount() < $cp->getDestroyCount()) {
+    if (($cp->getPlaceCount() - $cp->getPlaceRollbackCount()) < ($cp->getDestroyCount() - $cp->getDestroyRollbackCount())) {
         $warn_users[] = "{$mcid}(" . $cp->getPlaceCount() . " / " . $cp->getDestroyCount() . ")";
     }
     $logger->info("$mcid: edited ($cp)");

@@ -116,12 +116,18 @@ foreach ($editeds as $uuid => $cp) {
     $mcid = $player_uuid[$uuid];
     $placeCount = $cp->getPlaceCount();
     $placeRBCount = $cp->getPlaceRollbackCount();
+    $placeUnderlineStyle = ($placeCount - $placeRBCount) >= 1000 ? "__" : "";
+    $placeBoldStyle = ($placeCount - $placeRBCount) >= 100 ? "**" : "";
+
     $destroyCount = $cp->getDestroyCount();
     $destroyRBCount = $cp->getDestroyRollbackCount();
+    $destroyUnderlineStyle = ($destroyCount - $destroyRBCount) >= 1000 ? "__" : "";
+    $destroyBoldStyle = ($destroyCount - $destroyRBCount) >= 100 ? "**" : "";
+
     $url = "https://admin.jaoafa.com/cp/$uuid";
     $embed->addFields(
         "`$mcid`",
-        "ログ: $url\n設置: `{$placeCount}`回(内rb済: `{$placeRBCount}`回) / 破壊: `{$destroyCount}`回(内rb済: `{$destroyRBCount}`回)",
+        "ログ: $url\n設置: {$placeUnderlineStyle}{$placeBoldStyle}`{$placeCount}`{$placeBoldStyle}{$placeUnderlineStyle}回(内rb済: `{$placeRBCount}`回) / 破壊: {$destroyUnderlineStyle}{$destroyBoldStyle}`{$destroyCount}`{$destroyBoldStyle}{$destroyUnderlineStyle}回(内rb済: `{$destroyRBCount}`回)",
         false
     );
 }

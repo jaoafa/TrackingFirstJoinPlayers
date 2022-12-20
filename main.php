@@ -59,7 +59,7 @@ $logger->info("ZakuroHat database connected.");
 
 $yesterday = date("Y-m-d", strtotime("-1 day"));
 
-$stmt_count = $main_pdo->prepare("SELECT SUM(login_success = 1) as LoginSuccess, SUM(login_success = 0) as LoginFailure FROM login WHERE date REGEXP :date");
+$stmt_count = $main_pdo->prepare("SELECT SUM(login_success = 1) as LoginSuccess, SUM(login_success = 0) as LoginFailure, COUNT(DISTINCT uuid) as PlayerCount, COUNT(DISTINCT uuid AND login_success = 0) as FailurePlayerCount FROM login WHERE date REGEXP :date");
 $stmt_count->bindValue(":date", $yesterday);
 $stmt_count->execute();
 
@@ -67,6 +67,8 @@ $row = $stmt_count->fetch();
 $success_count = $row["LoginSuccess"];
 $failure_count = $row["LoginFailure"];
 $total_count = $success_count + $failure_count;
+$player_count = $row["PlayerCount"];
+$failure_player_count = $row["FailurePlayerCount"];
 
 $logger->info("login success: $success_count");
 $logger->info("login failed: $failure_count");
@@ -110,7 +112,7 @@ while ($row = $stmt->fetch()) {
 // Summary of yesterday
 $embed = new DiscordEmbed();
 $embed->setTitle("Summary of yesterday");
-$embed->setDescription("`$yesterday` のログインサマリー\n・プレイヤー数: `$total_count`回 (内ログイン失敗`{$failure_count}`回)");
+$embed->setDescription("`$yesterday` のログインサマリー\n・プレイヤー数: `$player_count`人 (内ログイン失敗: `$failure_player_count`人)\n・ログイン数: `$total_count` (内ログイン失敗: `{$failure_count}`回)");
 $embed->setAuthor("jaotan", "https://jaoafa.com/", "https://jaoafa.com/favicons/android-chrome-512x512.png", "https://jaoafa.com/favicons/android-chrome-512x512.png");
 foreach ($editeds as $uuid => $cp) {
     $mcid = $player_uuid[$uuid];
